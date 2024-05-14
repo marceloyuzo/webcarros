@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import logoImg from "../../assets/logo.svg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FiUser, FiLogIn, FiLogOut } from "react-icons/fi"
 import { signOut } from "firebase/auth"
 import { auth } from "../../services/firebaseConnection"
@@ -9,10 +9,12 @@ import toast from "react-hot-toast"
 
 export function Header() {
    const { signed, loadingAuth } = useContext(AuthContext)
+   const navigate = useNavigate()
 
    async function handleLogout() {
       await signOut(auth)
       toast.success("Usuário deslogado com sucesso!")
+      navigate("/login")
    }
 
    return(

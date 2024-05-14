@@ -7,6 +7,7 @@ import { storage, db } from "../../services/firebaseConnection"
 import { deleteObject, ref } from "firebase/storage"
 import { AuthContext } from "../../contexts/AuthContext"
 import toast from "react-hot-toast"
+import { Link } from "react-router-dom"
 
 interface CarProps {
   id: string,
@@ -68,6 +69,7 @@ export function Dashboard() {
 
     const docRef = doc(db, "cars", itemCar.id)
     await deleteDoc(docRef)
+    toast.success("Veículo removido com sucesso!")
 
     itemCar.images.map ( async(image) => {
       const imagePath = `images/${image.uid}/${image.name}`
@@ -76,7 +78,6 @@ export function Dashboard() {
       try {
         await deleteObject(imageRef)
         setCars(cars.filter(car => car.id !== itemCar.id))
-        toast.success("Veículo removido com sucesso!")
       } catch(erro) {
         console.log(erro)
       }
@@ -87,14 +88,15 @@ export function Dashboard() {
   return(
   <Container>
     <DashboardHeader/>
-      <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <main className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2 lg:grid-cols-3">
         {cars.map((car) => (
-          <section className="w-full bg-white rounded-lg relative" key={car.id}>
+          <Link to={`/car/${car.id}`} key={car.id}>
+            <section className="w-full bg-white rounded-lg relative hover:scale-105 transition-all">
             <button 
-              className="absolute bg-white w-14 h-14 rounded-full flex items-center justify-center right-2 top-2 drop-shadow"
+              className="absolute bg-red-500 w-10 h-10 rounded-full flex items-center justify-center right-2 top-2 drop-shadow"
               onClick={() => {handleDeleteCar(car)}}
             >
-              <FiTrash size={26} color="#000"/>
+              <FiTrash size={20} color="#fff"/>
             </button>
             <img 
               className="w-full rounded-lg mb-2 max-h-70"
@@ -117,6 +119,7 @@ export function Dashboard() {
               </span>
             </div>
           </section>
+          </Link>
         ))}
       </main>
   </Container>

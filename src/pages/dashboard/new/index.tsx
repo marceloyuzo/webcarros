@@ -14,6 +14,7 @@ import { storage, db } from "../../../services/firebaseConnection"
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
 import { addDoc, collection } from "firebase/firestore"
 import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 const schema = z.object({
   name: z.string().min(1, "O campo nome é obrigatório"),
@@ -38,6 +39,7 @@ interface ImageItemProps {
 type FormData = z.infer<typeof schema>
 
 export function NewCar() {
+  const navigate = useNavigate()
   const { user } = useContext(AuthContext)
   const { register, handleSubmit, formState: { errors }, reset} = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -117,6 +119,7 @@ export function NewCar() {
       reset()
       setCarImages([])
       toast.success("Carro cadastrado com sucesso!")
+      navigate("/dashboard")
     })
     .catch((error) => {
       console.log(error)

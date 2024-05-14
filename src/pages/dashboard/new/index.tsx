@@ -2,7 +2,7 @@ import { DashboardHeader } from "../../../components/DashboardHeader/DashboardHe
 import { Container } from "../../../components/Container"
 
 import { FiUpload, FiTrash } from "react-icons/fi"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { Input } from "../../../components/Input/Input"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"

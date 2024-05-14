@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebaseConnection";
+import toast from "react-hot-toast";
 
 export function DashboardHeader() {
    async function handleLogout() {
       await signOut(auth)
+      toast.success("Usuário deslogado com sucesso!")
    }
 
    return (
